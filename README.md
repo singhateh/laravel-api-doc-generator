@@ -10,6 +10,12 @@ A powerful Laravel package that automatically generates comprehensive API docume
 
 ---
 
+
+<p align="center">
+    <img src="LARAVEL-API-DOC.gif" alt="Laravel API Doc Generator" style="width:100%; max-width:100%; height:auto;">
+</p>
+
+
 ## ✨ Features
 
 - **Automatic Annotation Generation**: Auto-generate `@api` annotations for your controller methods  
