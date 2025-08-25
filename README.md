@@ -40,13 +40,13 @@ composer require alagiesinghateh/laravel-docmaker
 Publish the configuration file:
 
 ```bash
-php artisan vendor:publish --provider="Alagiesinghateh\LaravelApiDocGenerator\LaravelApiDocGeneratorServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Alagiesinghateh\LaravelApiDocGenerator\ApiDocGeneratorServiceProvider" --tag="config"
 ```
 
 Publish the views (optional):
 
 ```bash
-php artisan vendor:publish --provider="Alagiesinghateh\LaravelApiDocGenerator\LaravelApiDocGeneratorServiceProvider" --tag="views"
+php artisan vendor:publish --provider="Alagiesinghateh\LaravelApiDocGenerator\ApiDocGeneratorServiceProvider" --tag="views"
 ```
 
 ---
@@ -315,7 +315,7 @@ Access the web interface at:
 Publish the views and modify them as needed:
 
 ```bash
-php artisan vendor:publish --provider="Alagiesinghateh\LaravelApiDocGenerator\LaravelApiDocGeneratorServiceProvider" --tag="views"
+php artisan vendor:publish --provider="Alagiesinghateh\LaravelApiDocGenerator\ApiDocGeneratorServiceProvider" --tag="views"
 ```
 
 Views will be published to:  
