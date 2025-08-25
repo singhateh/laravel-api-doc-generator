@@ -1,9 +1,10 @@
 # Laravel API Doc Generator
 
-[![Latest Version](https://img.shields.io/packagist/v/alagiesinghateh/laravel-api-doc-generator.svg?style=flat-square)](https://packagist.org/packages/alagiesinghateh/laravel-api-doc-generator)  
-[![Total Downloads](https://img.shields.io/packagist/dt/alagiesinghateh/laravel-api-doc-generator.svg?style=flat-square)](https://packagist.org/packages/alagiesinghateh/laravel-api-doc-generator)  
-[![License](https://img.shields.io/packagist/l/alagiesinghateh/laravel-api-doc-generator.svg?style=flat-square)](https://packagist.org/packages/alagiesinghateh/laravel-api-doc-generator)  
-[![PHP Version](https://img.shields.io/packagist/php-v/alagiesinghateh/laravel-api-doc-generator.svg?style=flat-square)](https://packagist.org/packages/alagiesinghateh/laravel-api-doc-generator)
+[![Issues](https://img.shields.io/github/issues/singhateh/laravel-docmaker)](https://github.com/singhateh/laravel-docmaker/issues)
+[![Latest Version](https://img.shields.io/packagist/v/jambasangsang/flash.svg?style=flat-square)](https://packagist.org/packages/jambasangsang/flash)
+[![License](https://img.shields.io/github/license/singhateh/laravel-docmaker)](https://github.com/singhateh/laravel-docmaker/license)
+[![Stars](https://img.shields.io/github/stars/singhateh/laravel-docmaker)](https://github.com/singhateh/laravel-docmaker/stargazers)
+[![Total Downloads](https://img.shields.io/packagist/dt/jambasangsang/flash.svg?style=flat-square)](https://packagist.org/packages/jambasangsang/flash)
 
 A powerful Laravel package that automatically generates comprehensive API documentation from your controller annotations. Supports API Blueprint format with intelligent annotation parsing, authentication detection, and smart backup system.
 
