@@ -628,15 +628,18 @@ class ComposerStaticInitd372d4148564ee2fac4ee8972b9a2e42
     );
 
     public static $classMap = array (
+        'Alagiesinghateh\\LaravelApiDocGenerator\\ApiDocGenerator' => __DIR__ . '/../..' . '/src/ApiDocGenerator.php',
         'Alagiesinghateh\\LaravelApiDocGenerator\\ApiDocGeneratorServiceProvider' => __DIR__ . '/../..' . '/src/ApiDocGeneratorServiceProvider.php',
         'Alagiesinghateh\\LaravelApiDocGenerator\\Commands\\DebugApiDocs' => __DIR__ . '/../..' . '/src/Commands/DebugApiDocs.php',
         'Alagiesinghateh\\LaravelApiDocGenerator\\Commands\\DebugRouteMapping' => __DIR__ . '/../..' . '/src/Commands/DebugRouteMapping.php',
         'Alagiesinghateh\\LaravelApiDocGenerator\\Commands\\DebugRoutes' => __DIR__ . '/../..' . '/src/Commands/DebugRoutes.php',
+        'Alagiesinghateh\\LaravelApiDocGenerator\\Commands\\ForceRegenerateAnnotations' => __DIR__ . '/../..' . '/src/Commands/ForceRegenerateAnnotations.php',
         'Alagiesinghateh\\LaravelApiDocGenerator\\Commands\\GenerateApiDocs' => __DIR__ . '/../..' . '/src/Commands/GenerateApiDocs.php',
+        'Alagiesinghateh\\LaravelApiDocGenerator\\Commands\\RegenerateApiAnnotations' => __DIR__ . '/../..' . '/src/Commands/RegenerateApiAnnotations.php',
         'Alagiesinghateh\\LaravelApiDocGenerator\\Facades\\ApiDocGenerator' => __DIR__ . '/../..' . '/src/Facades/ApiDocGenerator.php',
         'Alagiesinghateh\\LaravelApiDocGenerator\\Http\\Controllers\\ApiDocumentationController' => __DIR__ . '/../..' . '/src/Http/Controllers/ApiDocumentationController.php',
+        'Alagiesinghateh\\LaravelApiDocGenerator\\Http\\Middleware\\ProtectApiDocs' => __DIR__ . '/../..' . '/src/Http/Middleware/ProtectApiDocs.php',
         'Alagiesinghateh\\LaravelApiDocGenerator\\Services\\ApiAnnotationGenerator' => __DIR__ . '/../..' . '/src/Services/ApiAnnotationGenerator.php',
-        'Alagiesinghateh\\LaravelApiDocGenerator\\Services\\ApiDocGenerator' => __DIR__ . '/../..' . '/src/Services/ApiDocGenerator.php',
         'Alagiesinghateh\\LaravelApiDocGenerator\\Tests\\TestCase' => __DIR__ . '/../..' . '/tests/TestCase.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Brick\\Math\\BigDecimal' => __DIR__ . '/..' . '/brick/math/src/BigDecimal.php',

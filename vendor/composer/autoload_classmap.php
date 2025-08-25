@@ -6,15 +6,18 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Alagiesinghateh\\LaravelApiDocGenerator\\ApiDocGenerator' => $baseDir . '/src/ApiDocGenerator.php',
     'Alagiesinghateh\\LaravelApiDocGenerator\\ApiDocGeneratorServiceProvider' => $baseDir . '/src/ApiDocGeneratorServiceProvider.php',
     'Alagiesinghateh\\LaravelApiDocGenerator\\Commands\\DebugApiDocs' => $baseDir . '/src/Commands/DebugApiDocs.php',
     'Alagiesinghateh\\LaravelApiDocGenerator\\Commands\\DebugRouteMapping' => $baseDir . '/src/Commands/DebugRouteMapping.php',
     'Alagiesinghateh\\LaravelApiDocGenerator\\Commands\\DebugRoutes' => $baseDir . '/src/Commands/DebugRoutes.php',
+    'Alagiesinghateh\\LaravelApiDocGenerator\\Commands\\ForceRegenerateAnnotations' => $baseDir . '/src/Commands/ForceRegenerateAnnotations.php',
     'Alagiesinghateh\\LaravelApiDocGenerator\\Commands\\GenerateApiDocs' => $baseDir . '/src/Commands/GenerateApiDocs.php',
+    'Alagiesinghateh\\LaravelApiDocGenerator\\Commands\\RegenerateApiAnnotations' => $baseDir . '/src/Commands/RegenerateApiAnnotations.php',
     'Alagiesinghateh\\LaravelApiDocGenerator\\Facades\\ApiDocGenerator' => $baseDir . '/src/Facades/ApiDocGenerator.php',
     'Alagiesinghateh\\LaravelApiDocGenerator\\Http\\Controllers\\ApiDocumentationController' => $baseDir . '/src/Http/Controllers/ApiDocumentationController.php',
+    'Alagiesinghateh\\LaravelApiDocGenerator\\Http\\Middleware\\ProtectApiDocs' => $baseDir . '/src/Http/Middleware/ProtectApiDocs.php',
     'Alagiesinghateh\\LaravelApiDocGenerator\\Services\\ApiAnnotationGenerator' => $baseDir . '/src/Services/ApiAnnotationGenerator.php',
-    'Alagiesinghateh\\LaravelApiDocGenerator\\Services\\ApiDocGenerator' => $baseDir . '/src/Services/ApiDocGenerator.php',
     'Alagiesinghateh\\LaravelApiDocGenerator\\Tests\\TestCase' => $baseDir . '/tests/TestCase.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
     'Brick\\Math\\BigDecimal' => $vendorDir . '/brick/math/src/BigDecimal.php',

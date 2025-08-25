@@ -1,19 +1,19 @@
 <?php return array(
     'root' => array(
-        'name' => 'alagiesinghateh/laravel-api-doc-generator',
+        'name' => 'alagiesinghateh/laravel-apidocs',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'a7d36f82d08a39bcfc87ee74390a39e4d2ace4d6',
+        'reference' => 'afaf3677bcc4037e1e6f0ad9c11248ab6014b4eb',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
-        'alagiesinghateh/laravel-api-doc-generator' => array(
+        'alagiesinghateh/laravel-apidocs' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'a7d36f82d08a39bcfc87ee74390a39e4d2ace4d6',
+            'reference' => 'afaf3677bcc4037e1e6f0ad9c11248ab6014b4eb',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -167,9 +167,9 @@
             'dev_requirement' => false,
         ),
         'guzzlehttp/guzzle' => array(
-            'pretty_version' => '7.9.3',
-            'version' => '7.9.3.0',
-            'reference' => '7b2f29fe81dc4da0ca0ea7d42107a0845946ea77',
+            'pretty_version' => '7.10.0',
+            'version' => '7.10.0.0',
+            'reference' => 'b51ac707cfa420b7bfd4e4d5e510ba8008e822b4',
             'type' => 'library',
             'install_path' => __DIR__ . '/../guzzlehttp/guzzle',
             'aliases' => array(),

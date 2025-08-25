@@ -4,9 +4,9 @@ namespace Alagiesinghateh\LaravelApiDocGenerator\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\View;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProtectApiDocs
 {
@@ -15,9 +15,9 @@ class ProtectApiDocs
         $config = config('api-doc-generator');
         $routePrefix = trim($config['web_interface']['route_prefix'] ?? 'api-docs', '/');
 
-        $docsPath = config('api-doc-generator.output_dir') . '/api-docs.json';
+        $docsPath = config('api-doc-generator.output_dir').'/api-docs.json';
 
-        if (!File::exists($docsPath)) {
+        if (! File::exists($docsPath)) {
             return $this->handleErrorResponse(
                 404,
                 'Documentation Not Found',
@@ -36,12 +36,12 @@ class ProtectApiDocs
          */
         if (app()->environment('production')) {
             $allowedUsers = $config['allowed_users'] ?? [];
-            $ipWhitelist  = $config['security']['ip_whitelist'] ?? [];
+            $ipWhitelist = $config['security']['ip_whitelist'] ?? [];
 
-            $userAllowed  = auth()->check() && in_array(auth()->user()->email, $allowedUsers, true);
-            $ipAllowed    = !empty($ipWhitelist) && in_array($request->ip(), $ipWhitelist, true);
+            $userAllowed = auth()->check() && in_array(auth()->user()->email, $allowedUsers, true);
+            $ipAllowed = ! empty($ipWhitelist) && in_array($request->ip(), $ipWhitelist, true);
 
-            if (!($userAllowed || $ipAllowed)) {
+            if (! ($userAllowed || $ipAllowed)) {
                 return $errorResponse(
                     403,
                     'Access Denied',
@@ -54,12 +54,12 @@ class ProtectApiDocs
              * Always allow localhost unless overridden.
              */
             $allowedUsers = $config['allowed_users'] ?? [];
-            $ipWhitelist  = $config['security']['ip_whitelist'] ?? ['127.0.0.1', '::1'];
+            $ipWhitelist = $config['security']['ip_whitelist'] ?? ['127.0.0.1', '::1'];
 
-            $userAllowed  = auth()->check() && in_array(auth()->user()->email, $allowedUsers, true);
-            $ipAllowed    = empty($ipWhitelist) || in_array($request->ip(), $ipWhitelist, true);
+            $userAllowed = auth()->check() && in_array(auth()->user()->email, $allowedUsers, true);
+            $ipAllowed = empty($ipWhitelist) || in_array($request->ip(), $ipWhitelist, true);
 
-            if (!($userAllowed || $ipAllowed)) {
+            if (! ($userAllowed || $ipAllowed)) {
                 return $errorResponse(
                     403,
                     'Access Denied',
@@ -91,17 +91,17 @@ class ProtectApiDocs
     protected function handleErrorResponse(int $code, string $title, string $message, Request $request): Response
     {
         $packageErrorView = 'api-doc-generator::errors.base';
-        
+
         // Check if the package error view exists
         if (View::exists($packageErrorView)) {
             return response()->view($packageErrorView, [
-                'code'    => $code,
-                'title'   => $title,
+                'code' => $code,
+                'title' => $title,
                 'message' => $message,
-                'icon'    => $this->getErrorIcon($code)
+                'icon' => $this->getErrorIcon($code),
             ], $code);
         }
-        
+
         // Fallback to Laravel's error handling
         return $this->fallbackErrorResponse($code, $title, $message, $request);
     }
@@ -129,8 +129,8 @@ class ProtectApiDocs
                 'error' => [
                     'code' => $code,
                     'message' => $message,
-                    'title' => $title
-                ]
+                    'title' => $title,
+                ],
             ], $code);
         }
 

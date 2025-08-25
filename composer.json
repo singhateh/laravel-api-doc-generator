@@ -1,5 +1,5 @@
 {
-    "name": "alagiesinghateh/laravel-api-doc-generator",
+    "name": "alagiesinghateh/laravel-apidocs",
     "description": "A Laravel package to generate API documentation from controller annotations",
     "type": "library",
     "license": "MIT",

@@ -2,8 +2,8 @@
 
 namespace Alagiesinghateh\LaravelApiDocGenerator\Commands;
 
-use Alagiesinghateh\LaravelApiDocGenerator\Services\ApiAnnotationGenerator;
 use Alagiesinghateh\LaravelApiDocGenerator\ApiDocGenerator;
+use Alagiesinghateh\LaravelApiDocGenerator\Services\ApiAnnotationGenerator;
 use Illuminate\Console\Command;
 
 class GenerateApiDocs extends Command

@@ -21,6 +21,7 @@ Route::middleware($middleware)
 
         Route::post('/generate', function () {
             Artisan::call('singhateh:generate', ['--dry-run' => true]);
+
             return redirect()->route('api-docs.index')
                 ->with('success', 'API documentation generated successfully!');
         })->name('generate');

@@ -2,8 +2,8 @@
 
 namespace Alagiesinghateh\LaravelApiDocGenerator;
 
-use Alagiesinghateh\LaravelApiDocGenerator\Services\ApiAnnotationGenerator;
 use Alagiesinghateh\LaravelApiDocGenerator\Http\Middleware\ProtectApiDocs;
+use Alagiesinghateh\LaravelApiDocGenerator\Services\ApiAnnotationGenerator;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
@@ -13,7 +13,7 @@ class ApiDocGeneratorServiceProvider extends ServiceProvider
     public function boot()
     {
         // Register middleware alias only if not overridden
-        if (!isset($this->app['router']->getMiddleware()['protect.api.docs'])) {
+        if (! isset($this->app['router']->getMiddleware()['protect.api.docs'])) {
             $this->app['router']->aliasMiddleware('protect.api.docs', ProtectApiDocs::class);
         }
 
@@ -63,29 +63,27 @@ class ApiDocGeneratorServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/api-doc-generator.php', 'api-doc-generator');
 
-        $this->app->singleton(ApiAnnotationGenerator::class, fn($app) => new ApiAnnotationGenerator($app->make(Router::class)));
-        $this->app->singleton('api-doc-generator', fn($app) => new ApiDocGenerator($app->make(Filesystem::class), $app->make(Router::class)));
-        $this->app->bind(ApiDocGenerator::class, fn($app) => new ApiDocGenerator($app->make(Filesystem::class), $app->make(Router::class)));
+        $this->app->singleton(ApiAnnotationGenerator::class, fn ($app) => new ApiAnnotationGenerator($app->make(Router::class)));
+        $this->app->singleton('api-doc-generator', fn ($app) => new ApiDocGenerator($app->make(Filesystem::class), $app->make(Router::class)));
+        $this->app->bind(ApiDocGenerator::class, fn ($app) => new ApiDocGenerator($app->make(Filesystem::class), $app->make(Router::class)));
 
         $this->commands([\Alagiesinghateh\LaravelApiDocGenerator\Commands\GenerateApiDocs::class]);
     }
 
-
     protected function addEnvDefaults(array $defaults)
-{
-    $envFile = base_path('.env');
+    {
+        $envFile = base_path('.env');
 
-    if (!file_exists($envFile)) {
-        return;
-    }
+        if (! file_exists($envFile)) {
+            return;
+        }
 
-    $envContents = file_get_contents($envFile);
+        $envContents = file_get_contents($envFile);
 
-    foreach ($defaults as $key => $value) {
-        if (!str_contains($envContents, $key.'=')) {
-            file_put_contents($envFile, PHP_EOL . $key . '=' . $value, FILE_APPEND);
+        foreach ($defaults as $key => $value) {
+            if (! str_contains($envContents, $key.'=')) {
+                file_put_contents($envFile, PHP_EOL.$key.'='.$value, FILE_APPEND);
+            }
         }
     }
-}
-
 }

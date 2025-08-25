@@ -2,10 +2,10 @@
 
 namespace Alagiesinghateh\LaravelApiDocGenerator;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use ReflectionClass;
-use Carbon\Carbon;
 
 class ApiDocGenerator
 {
@@ -53,7 +53,7 @@ class ApiDocGenerator
         return [
             'docs' => $docs,
             'backup_created' => $result['backup_created'],
-            'file_updated' => $result['file_updated']
+            'file_updated' => $result['file_updated'],
         ];
     }
 
@@ -94,117 +94,117 @@ class ApiDocGenerator
     /**
      * Parse a single @api docblock into structured data
      */
-   protected function parseDocBlock(string $docComment): array
-{
-    $defaults = config('api-doc-generator.defaults');
+    protected function parseDocBlock(string $docComment): array
+    {
+        $defaults = config('api-doc-generator.defaults');
 
-    $data = [
-        'id' => Str::random(10),
-        'method' => $defaults['method'],
-        'path' => $defaults['path'],
-        'name' => $defaults['name'],
-        'group' => $defaults['group'],
-        'description' => '',
-        'authenticated' => false,
-        'middleware' => [], // Add middleware field
-        'parameters' => [],
-        'responses' => [
-            'examples' => [
-                'success' => '',
-                'error' => '',
+        $data = [
+            'id' => Str::random(10),
+            'method' => $defaults['method'],
+            'path' => $defaults['path'],
+            'name' => $defaults['name'],
+            'group' => $defaults['group'],
+            'description' => '',
+            'authenticated' => false,
+            'middleware' => [], // Add middleware field
+            'parameters' => [],
+            'responses' => [
+                'examples' => [
+                    'success' => '',
+                    'error' => '',
+                ],
             ],
-        ],
-        'headers' => [],
-        'errors' => [],
-    ];
+            'headers' => [],
+            'errors' => [],
+        ];
 
-    $currentTag = null;
-    $lines = explode("\n", $docComment);
+        $currentTag = null;
+        $lines = explode("\n", $docComment);
 
-    foreach ($lines as $line) {
-        $line = trim($line);
-        if (empty($line) || $line === '/**' || $line === '*/') {
-            continue;
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if (empty($line) || $line === '/**' || $line === '*/') {
+                continue;
+            }
+
+            $line = preg_replace('/^\s*\*\s?/', '', $line);
+
+            if (preg_match('/@api\s+\{(\w+)\}\s+(\S+)\s+(.+)/', $line, $matches)) {
+                $data['method'] = strtoupper($matches[1]);
+                $data['path'] = $matches[2];
+                $data['description'] = $matches[3];
+            } elseif (preg_match('/@apiName\s+(.+)/', $line, $matches)) {
+                $data['name'] = trim($matches[1]);
+            } elseif (preg_match('/@apiGroup\s+(.+)/', $line, $matches)) {
+                $data['group'] = trim($matches[1]);
+            } elseif (preg_match('/@apiDescription\s+(.+)/', $line, $matches)) {
+                $data['description'] = trim($matches[1]);
+            } elseif (preg_match('/@apiParam\s+\{(.*?)\}\s+(\[?)(.*?)(\]?)\s+(.+)/', $line, $matches)) {
+                $data['parameters'][] = [
+                    'type' => $matches[1],
+                    'name' => $matches[3],
+                    'required' => empty($matches[2]) && empty($matches[4]),
+                    'description' => $matches[5],
+                ];
+            } elseif (preg_match('/@apiHeader\s+\{(.*?)\}\s+(.+)/', $line, $matches)) {
+                $data['headers'][] = [
+                    'name' => $matches[2],
+                    'type' => $matches[1],
+                ];
+            } elseif (preg_match('/@apiSuccess\s+\{(.*?)\}\s+(.+)/', $line, $matches)) {
+                $data['responses']['fields'][] = [
+                    'type' => $matches[1],
+                    'field' => $matches[2],
+                ];
+            } elseif (preg_match('/@apiSuccessExample/', $line)) {
+                $currentTag = 'success';
+                $data['responses']['examples'][$currentTag] = '';
+            } elseif (preg_match('/@apiErrorExample/', $line)) {
+                $currentTag = 'error';
+                $data['responses']['examples'][$currentTag] = '';
+            } elseif (preg_match('/@apiError\s+\{(.*?)\}\s+(.+)/', $line, $matches)) {
+                $data['errors'][] = [
+                    'code' => $matches[1],
+                    'description' => $matches[2],
+                ];
+            } elseif (preg_match('/@apiAuth\s+(.+)/', $line, $matches)) {
+                // Handle authentication annotation
+                $data['authenticated'] = true;
+                $data['auth_type'] = trim($matches[1]);
+            } elseif (preg_match('/@apiPermission\s+(.+)/', $line, $matches)) {
+                // Handle permission annotation
+                $data['authenticated'] = true;
+                $data['permissions'] = array_map('trim', explode(',', $matches[1]));
+            } elseif (preg_match('/@apiSecurity\s+(.+)/', $line, $matches)) {
+                // Handle security annotation
+                $data['authenticated'] = true;
+                $data['security_scheme'] = trim($matches[1]);
+            } elseif (preg_match('/@apiMiddleware\s+(.+)/', $line, $matches)) {
+                $data['middleware'][] = trim($matches[1]);
+            } elseif ($currentTag && ! str_starts_with($line, '@')) {
+                $data['responses']['examples'][$currentTag] .= $line."\n";
+            }
         }
 
-        $line = preg_replace('/^\s*\*\s?/', '', $line);
-
-        if (preg_match('/@api\s+\{(\w+)\}\s+(\S+)\s+(.+)/', $line, $matches)) {
-            $data['method'] = strtoupper($matches[1]);
-            $data['path'] = $matches[2];
-            $data['description'] = $matches[3];
-        } elseif (preg_match('/@apiName\s+(.+)/', $line, $matches)) {
-            $data['name'] = trim($matches[1]);
-        } elseif (preg_match('/@apiGroup\s+(.+)/', $line, $matches)) {
-            $data['group'] = trim($matches[1]);
-        } elseif (preg_match('/@apiDescription\s+(.+)/', $line, $matches)) {
-            $data['description'] = trim($matches[1]);
-        } elseif (preg_match('/@apiParam\s+\{(.*?)\}\s+(\[?)(.*?)(\]?)\s+(.+)/', $line, $matches)) {
-            $data['parameters'][] = [
-                'type' => $matches[1],
-                'name' => $matches[3],
-                'required' => empty($matches[2]) && empty($matches[4]),
-                'description' => $matches[5],
-            ];
-        } elseif (preg_match('/@apiHeader\s+\{(.*?)\}\s+(.+)/', $line, $matches)) {
-            $data['headers'][] = [
-                'name' => $matches[2],
-                'type' => $matches[1],
-            ];
-        } elseif (preg_match('/@apiSuccess\s+\{(.*?)\}\s+(.+)/', $line, $matches)) {
-            $data['responses']['fields'][] = [
-                'type' => $matches[1],
-                'field' => $matches[2],
-            ];
-        } elseif (preg_match('/@apiSuccessExample/', $line)) {
-            $currentTag = 'success';
-            $data['responses']['examples'][$currentTag] = '';
-        } elseif (preg_match('/@apiErrorExample/', $line)) {
-            $currentTag = 'error';
-            $data['responses']['examples'][$currentTag] = '';
-        } elseif (preg_match('/@apiError\s+\{(.*?)\}\s+(.+)/', $line, $matches)) {
-            $data['errors'][] = [
-                'code' => $matches[1],
-                'description' => $matches[2],
-            ];
-        } elseif (preg_match('/@apiAuth\s+(.+)/', $line, $matches)) {
-            // Handle authentication annotation
-            $data['authenticated'] = true;
-            $data['auth_type'] = trim($matches[1]);
-        } elseif (preg_match('/@apiPermission\s+(.+)/', $line, $matches)) {
-            // Handle permission annotation
-            $data['authenticated'] = true;
-            $data['permissions'] = array_map('trim', explode(',', $matches[1]));
-        } elseif (preg_match('/@apiSecurity\s+(.+)/', $line, $matches)) {
-            // Handle security annotation
-            $data['authenticated'] = true;
-            $data['security_scheme'] = trim($matches[1]);
-        } elseif (preg_match('/@apiMiddleware\s+(.+)/', $line, $matches)) {
-            $data['middleware'][] = trim($matches[1]);
-        } elseif ($currentTag && ! str_starts_with($line, '@')) {
-            $data['responses']['examples'][$currentTag] .= $line."\n";
+        // Additional authentication detection from parameters
+        if (! $data['authenticated']) {
+            $data['authenticated'] = $this->detectAuthenticationFromParameters($data['parameters']);
         }
+
+        // Additional authentication detection from headers
+        if (! $data['authenticated']) {
+            $data['authenticated'] = $this->detectAuthenticationFromHeaders($data['headers']);
+        }
+
+        $data['responses']['examples']['success'] = trim($data['responses']['examples']['success']);
+        $data['responses']['examples']['error'] = trim($data['responses']['examples']['error']);
+
+        if ($data['name'] === 'Untitled Endpoint' && ! empty($data['description'])) {
+            $data['name'] = $data['description'];
+        }
+
+        return $data;
     }
-
-    // Additional authentication detection from parameters
-    if (!$data['authenticated']) {
-        $data['authenticated'] = $this->detectAuthenticationFromParameters($data['parameters']);
-    }
-
-    // Additional authentication detection from headers
-    if (!$data['authenticated']) {
-        $data['authenticated'] = $this->detectAuthenticationFromHeaders($data['headers']);
-    }
-
-    $data['responses']['examples']['success'] = trim($data['responses']['examples']['success']);
-    $data['responses']['examples']['error'] = trim($data['responses']['examples']['error']);
-
-    if ($data['name'] === 'Untitled Endpoint' && ! empty($data['description'])) {
-        $data['name'] = $data['description'];
-    }
-
-    return $data;
-}
 
     /**
      * Detect authentication requirements from parameters
@@ -212,8 +212,8 @@ class ApiDocGenerator
     protected function detectAuthenticationFromParameters(array $parameters): bool
     {
         $authIndicators = [
-            'token', 'api_key', 'api-key', 'bearer', 'jwt', 'auth', 
-            'authorization', 'access_token', 'access-token'
+            'token', 'api_key', 'api-key', 'bearer', 'jwt', 'auth',
+            'authorization', 'access_token', 'access-token',
         ];
 
         foreach ($parameters as $param) {
@@ -233,7 +233,7 @@ class ApiDocGenerator
     {
         $authIndicators = [
             'authorization', 'x-api-key', 'x-api-token', 'x-auth-token',
-            'x-access-token', 'x-bearer-token'
+            'x-access-token', 'x-bearer-token',
         ];
 
         foreach ($headers as $header) {
@@ -258,7 +258,7 @@ class ApiDocGenerator
         }
 
         $outputFile = "{$outputDir}/api-docs.json";
-        
+
         $grouped = [];
         foreach ($docs as $doc) {
             $group = $doc['group'] ?? 'General';
@@ -266,18 +266,18 @@ class ApiDocGenerator
         }
 
         $newContent = json_encode($grouped, JSON_PRETTY_PRINT);
-        
+
         $backupCreated = false;
         $fileUpdated = false;
 
         // Check if file exists and compare content
         if (File::exists($outputFile)) {
             $currentContent = File::get($outputFile);
-            
+
             // Normalize JSON for comparison (remove whitespace differences)
             $normalizedCurrent = $this->normalizeJson($currentContent);
             $normalizedNew = $this->normalizeJson($newContent);
-            
+
             if ($normalizedCurrent !== $normalizedNew) {
                 // Content is different, create backup and update file
                 $this->createBackup($outputFile, $currentContent);
@@ -299,7 +299,7 @@ class ApiDocGenerator
 
         return [
             'backup_created' => $backupCreated,
-            'file_updated' => $fileUpdated
+            'file_updated' => $fileUpdated,
         ];
     }
 
@@ -310,6 +310,7 @@ class ApiDocGenerator
     {
         try {
             $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+
             return json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         } catch (\JsonException $e) {
             return $json; // Return original if invalid JSON
@@ -319,17 +320,17 @@ class ApiDocGenerator
     /**
      * Create backup of existing documentation file
      */
-    protected function createBackup(string $filePath, string $content = null): void
+    protected function createBackup(string $filePath, ?string $content = null): void
     {
-        $backupDir = dirname($filePath) . '/backups';
-        if (!File::exists($backupDir)) {
+        $backupDir = dirname($filePath).'/backups';
+        if (! File::exists($backupDir)) {
             File::makeDirectory($backupDir, 0755, true);
         }
 
         $timestamp = Carbon::now()->format('Y-m-d_His');
         $filename = pathinfo($filePath, PATHINFO_FILENAME);
         $extension = pathinfo($filePath, PATHINFO_EXTENSION);
-        
+
         $backupPath = "{$backupDir}/{$filename}_{$timestamp}.{$extension}";
 
         if ($content !== null) {
@@ -346,8 +347,8 @@ class ApiDocGenerator
      */
     protected function cleanupOldBackups(string $outputDir): void
     {
-        $backupDir = $outputDir . '/backups';
-        if (!File::exists($backupDir)) {
+        $backupDir = $outputDir.'/backups';
+        if (! File::exists($backupDir)) {
             return;
         }
 
@@ -368,19 +369,19 @@ class ApiDocGenerator
     /**
      * Restore from backup
      */
-    public function restoreFromBackup(string $backupFilename = null): array
+    public function restoreFromBackup(?string $backupFilename = null): array
     {
         $outputDir = config('api-doc-generator.output_dir');
-        $backupDir = $outputDir . '/backups';
+        $backupDir = $outputDir.'/backups';
         $outputFile = "{$outputDir}/api-docs.json";
 
-        if (!File::exists($backupDir)) {
+        if (! File::exists($backupDir)) {
             return ['success' => false, 'message' => 'Backup directory does not exist'];
         }
 
         if ($backupFilename) {
             $backupPath = "{$backupDir}/{$backupFilename}";
-            if (!File::exists($backupPath)) {
+            if (! File::exists($backupPath)) {
                 return ['success' => false, 'message' => 'Backup file not found'];
             }
         } else {
@@ -409,9 +410,9 @@ class ApiDocGenerator
         File::copy($backupPath, $outputFile);
 
         return [
-            'success' => true, 
+            'success' => true,
             'message' => 'Backup restored successfully',
-            'backup_file' => $backupFilename
+            'backup_file' => $backupFilename,
         ];
     }
 
@@ -421,9 +422,9 @@ class ApiDocGenerator
     public function listBackups(): array
     {
         $outputDir = config('api-doc-generator.output_dir');
-        $backupDir = $outputDir . '/backups';
+        $backupDir = $outputDir.'/backups';
 
-        if (!File::exists($backupDir)) {
+        if (! File::exists($backupDir)) {
             return [];
         }
 
@@ -435,7 +436,7 @@ class ApiDocGenerator
                 'filename' => $file->getFilename(),
                 'size' => File::size($file->getPathname()),
                 'modified' => Carbon::createFromTimestamp(File::lastModified($file->getPathname())),
-                'path' => $file->getPathname()
+                'path' => $file->getPathname(),
             ];
         }
 
@@ -452,14 +453,14 @@ class ApiDocGenerator
      */
     public function needsBackup(array $newDocs): bool
     {
-        $outputFile = config('api-doc-generator.output_dir') . '/api-docs.json';
-        
-        if (!File::exists($outputFile)) {
+        $outputFile = config('api-doc-generator.output_dir').'/api-docs.json';
+
+        if (! File::exists($outputFile)) {
             return false; // No existing file, no backup needed
         }
 
         $currentContent = File::get($outputFile);
-        
+
         $grouped = [];
         foreach ($newDocs as $doc) {
             $group = $doc['group'] ?? 'General';
@@ -467,11 +468,11 @@ class ApiDocGenerator
         }
 
         $newContent = json_encode($grouped, JSON_PRETTY_PRINT);
-        
+
         // Normalize JSON for comparison
         $normalizedCurrent = $this->normalizeJson($currentContent);
         $normalizedNew = $this->normalizeJson($newContent);
-        
+
         return $normalizedCurrent !== $normalizedNew;
     }
 
@@ -484,6 +485,7 @@ class ApiDocGenerator
 
         if (! File::exists($docsPath)) {
             $result = $this->generate();
+
             return $result['docs'];
         }
 
@@ -492,7 +494,7 @@ class ApiDocGenerator
         // Ensure all endpoints have authenticated field
         foreach ($docs as $groupName => $groupData) {
             foreach ($groupData['endpoints'] as $index => $endpoint) {
-                if (!isset($endpoint['authenticated'])) {
+                if (! isset($endpoint['authenticated'])) {
                     $docs[$groupName]['endpoints'][$index]['authenticated'] = false;
                 }
             }

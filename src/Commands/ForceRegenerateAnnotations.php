@@ -50,19 +50,21 @@ class ForceRegenerateAnnotations extends Command
         $totalProcessed = 0;
 
         foreach ($controllerPaths as $path) {
-            if (!File::exists($path)) {
+            if (! File::exists($path)) {
                 $this->warn("Path does not exist: {$path}");
+
                 continue;
             }
 
             $controllers = File::allFiles($path);
             $this->info("\n📁 Processing controllers in: {$path}");
-            $this->info("📊 Found " . count($controllers) . " controller files");
+            $this->info('📊 Found '.count($controllers).' controller files');
 
             foreach ($controllers as $controller) {
                 $className = $this->getFullyQualifiedClassName($controller->getPathname());
-                if (!$className || !class_exists($className)) {
+                if (! $className || ! class_exists($className)) {
                     $this->warn("Skipping: Could not load class {$className}");
+
                     continue;
                 }
 
@@ -85,9 +87,9 @@ class ForceRegenerateAnnotations extends Command
         $this->info("📝 Total methods annotated: {$totalAnnotated}");
         $this->info("⏭️  Total methods skipped: {$totalSkipped}");
 
-        if (!$dryRun) {
+        if (! $dryRun) {
             $this->info("\n🎯 Now run: php artisan singhateh:generate");
-            $this->info("   to generate the final API documentation");
+            $this->info('   to generate the final API documentation');
         }
     }
 
@@ -96,25 +98,26 @@ class ForceRegenerateAnnotations extends Command
         $controllerPaths = config('api-doc-generator.controller_paths', [app_path('Http/Controllers/API')]);
 
         foreach ($controllerPaths as $path) {
-            if (!File::exists($path)) {
+            if (! File::exists($path)) {
                 $this->warn("Path does not exist: {$path}");
+
                 continue;
             }
 
             $controllers = File::allFiles($path);
 
             foreach ($controllers as $controller) {
-                $backupDir = $controller->getPath() . '/__backups';
+                $backupDir = $controller->getPath().'/__backups';
                 $filename = $controller->getFilename();
 
-                $backups = File::glob($backupDir . '/' . $filename . '.backup.*');
+                $backups = File::glob($backupDir.'/'.$filename.'.backup.*');
 
-                if (!empty($backups)) {
-                    usort($backups, fn($a, $b) => filemtime($b) <=> filemtime($a));
+                if (! empty($backups)) {
+                    usort($backups, fn ($a, $b) => filemtime($b) <=> filemtime($a));
                     $latestBackup = $backups[0];
 
                     File::copy($latestBackup, $controller->getPathname());
-                    $this->info("✅ Restored {$filename} from backup: " . basename($latestBackup));
+                    $this->info("✅ Restored {$filename} from backup: ".basename($latestBackup));
                 } else {
                     $this->warn("⚠️  No backup found for {$filename}");
                 }
@@ -133,14 +136,14 @@ class ForceRegenerateAnnotations extends Command
         $originalContent = $content;
 
         // Backup in subfolder
-        if (!$dryRun && !$skipBackup) {
-            $backupDir = dirname($filePath) . '/__backups';
-            if (!File::exists($backupDir)) {
+        if (! $dryRun && ! $skipBackup) {
+            $backupDir = dirname($filePath).'/__backups';
+            if (! File::exists($backupDir)) {
                 File::makeDirectory($backupDir, 0755, true);
             }
-            $backupPath = $backupDir . '/' . basename($filePath) . '.backup.' . date('YmdHis');
+            $backupPath = $backupDir.'/'.basename($filePath).'.backup.'.date('YmdHis');
             File::put($backupPath, $content);
-            $this->info("💾 Backup created: " . basename($backupPath));
+            $this->info('💾 Backup created: '.basename($backupPath));
         }
 
         $reflection = new ReflectionClass($className);
@@ -159,6 +162,7 @@ class ForceRegenerateAnnotations extends Command
 
             if ($onlyMissing && $docComment && str_contains($docComment, '@api')) {
                 $skippedCount++;
+
                 continue;
             }
 
@@ -168,9 +172,10 @@ class ForceRegenerateAnnotations extends Command
             }
 
             $route = $this->annotationGenerator->getRouteForMethod($className, $methodName);
-            if (!$route) {
+            if (! $route) {
                 $this->warn("   ⚠️  No route found for: {$className}@{$methodName}");
                 $skippedCount++;
+
                 continue;
             }
 
@@ -191,13 +196,13 @@ class ForceRegenerateAnnotations extends Command
 
             if ($dryRun) {
                 $this->info("   📝 Would annotate: {$className}@{$methodName}");
-                $this->line('      ' . str_replace("\n", "\n      ", $annotation));
+                $this->line('      '.str_replace("\n", "\n      ", $annotation));
                 $annotatedCount++;
             } else {
-                $pattern = '/(\n\s*)(public|protected|private)\s+function\s+' . $methodName . '\s*\([^)]*\)\s*\{/';
+                $pattern = '/(\n\s*)(public|protected|private)\s+function\s+'.$methodName.'\s*\([^)]*\)\s*\{/';
                 $content = preg_replace_callback(
                     $pattern,
-                    fn($matches) => $matches[1] . $annotation . "\n" . $matches[0],
+                    fn ($matches) => $matches[1].$annotation."\n".$matches[0],
                     $content,
                     1
                 );
@@ -207,12 +212,12 @@ class ForceRegenerateAnnotations extends Command
             }
         }
 
-        if (!$dryRun && $content !== $originalContent) {
+        if (! $dryRun && $content !== $originalContent) {
             File::put($filePath, $content);
 
             if (file_exists(base_path('vendor/bin/pint'))) {
                 $process = proc_open(
-                    base_path('vendor/bin/pint') . ' ' . escapeshellarg($filePath),
+                    base_path('vendor/bin/pint').' '.escapeshellarg($filePath),
                     [['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w']],
                     $pipes
                 );
@@ -223,27 +228,28 @@ class ForceRegenerateAnnotations extends Command
         return [
             'annotated' => $annotatedCount,
             'skipped' => $skippedCount,
-            'processed' => $processedCount
+            'processed' => $processedCount,
         ];
     }
 
     protected function removeExistingApiAnnotations(string $content, string $methodName): string
     {
         // Only remove docblock above the method
-        $pattern = '/\/\*\*[\s\S]*?\*\/(\s*)(public|protected|private)\s+function\s+' . preg_quote($methodName, '/') . '\s*\(/';
-        return preg_replace_callback($pattern, fn($matches) => $matches[1] . $matches[2] . ' function ' . $methodName . '(', $content);
+        $pattern = '/\/\*\*[\s\S]*?\*\/(\s*)(public|protected|private)\s+function\s+'.preg_quote($methodName, '/').'\s*\(/';
+
+        return preg_replace_callback($pattern, fn ($matches) => $matches[1].$matches[2].' function '.$methodName.'(', $content);
     }
 
     protected function getFullyQualifiedClassName(string $filePath): ?string
     {
         $content = File::get($filePath);
-        if (!preg_match('/namespace\s+(.+?);/', $content, $nsMatch)) {
+        if (! preg_match('/namespace\s+(.+?);/', $content, $nsMatch)) {
             return null;
         }
-        if (!preg_match('/class\s+(\w+)/', $content, $classMatch)) {
+        if (! preg_match('/class\s+(\w+)/', $content, $classMatch)) {
             return null;
         }
 
-        return $nsMatch[1] . '\\' . $classMatch[1];
+        return $nsMatch[1].'\\'.$classMatch[1];
     }
 }

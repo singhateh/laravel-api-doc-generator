@@ -20,7 +20,6 @@ class ApiDocumentationController extends Controller
     {
         $docs = $this->generator->getDocumentation();
 
-
         if (empty($docs)) {
             return response()->view('api-doc-generator::error', [
                 'message' => 'No API documentation found. Please run php artisan singhateh:generate first.',
