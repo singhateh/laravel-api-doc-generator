@@ -1,0 +1,69 @@
+{
+    "name": "alagiesinghateh/laravel-api-doc-generator",
+    "description": "A Laravel package to generate API documentation from controller annotations",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alagie Singhateh",
+            "email": "3939919@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Alagiesinghateh\\LaravelApiDocGenerator\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Alagiesinghateh\\LaravelApiDocGenerator\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^10.0|^11.0|^12.0",
+        "illuminate/console": "^10.0|^11.0|^12.0",
+        "illuminate/filesystem": "^10.0|^11.0|^12.0",
+        "guzzlehttp/guzzle": "^7.5"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.24",
+        "orchestra/testbench": "^9.5",
+        "pestphp/pest": "^3.5.1"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Alagiesinghateh\\LaravelApiDocGenerator\\ApiDocGeneratorServiceProvider"
+            ],
+            "aliases": {
+                "ApiDocGenerator": "Alagiesinghateh\\LaravelApiDocGenerator\\Facades\\ApiDocGenerator"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist",
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "pint": "vendor/bin/pint",
+        "pint:fix": "vendor/bin/pint",
+        "pint:test": "vendor/bin/pint",
+        "test": "vendor/bin/pest",
+        "test:feature": "vendor/bin/pest tests/Feature",
+        "test:unit": "vendor/bin/pest tests/Unit",
+        "test:coverage": "vendor/bin/pest --coverage",
+        "post-install-cmd": [
+            "@pint:fix"
+        ],
+        "post-update-cmd": [
+            "@pint:fix"
+        ]
+    }
+}

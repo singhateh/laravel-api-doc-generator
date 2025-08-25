@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom colors */
+:root {
+  --color-primary-50: #f0f9ff;
+  --color-primary-100: #e0f2fe;
+  --color-primary-200: #bae6fd;
+  --color-primary-300: #7dd3fc;
+  --color-primary-400: #38bdf8;
+  --color-primary-500: #0ea5e9;
+  --color-primary-600: #0284c7;
+  --color-primary-700: #0369a1;
+  --color-primary-800: #075985;
+  --color-primary-900: #0c4a6e;
+  --color-primary-950: #082f49;
+}
+
+/* Font faces for offline support */
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 300 700;
+    font-display: swap;
+    src: local('Inter'), local('Inter Variable'), local('Inter-Regular'),
+         url('../fonts/inter-var.woff2') format('woff2-variations');
+}
+
+@font-face {
+    font-family: 'Fira Code';
+    font-style: normal;
+    font-weight: 300 700;
+    font-display: swap;
+    src: local('Fira Code'), local('FiraCode-Regular'),
+         url('../fonts/fira-code-var.woff2') format('woff2-variations');
+}
+
+/* Base styles */
+@layer base {
+    body {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        transition: all 0.3s ease;
+    }
+
+    .glass-effect {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .dark .glass-effect {
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .code-block {
+        font-family: 'Fira Code', 'Monaco', 'Cascadia Code', 'Courier New', monospace;
+    }
+
+    .animate-float {
+        animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-5px); }
+    }
+
+    .scrollbar-thin {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+    }
+    .scrollbar-thin::-webkit-scrollbar {
+        width: 6px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+        background: rgba(156, 163, 175, 0.5);
+        border-radius: 3px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+        background: rgba(156, 163, 175, 0.7);
+    }
+
+    /* Better dark mode scrollbar */
+    .dark .scrollbar-thin {
+        scrollbar-color: rgba(75, 85, 99, 0.5) transparent;
+    }
+    .dark .scrollbar-thin::-webkit-scrollbar-thumb {
+        background: rgba(75, 85, 99, 0.5);
+    }
+    .dark .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+        background: rgba(75, 85, 99, 0.7);
+    }
+}
+
+/* Components */
+@layer components {
+    /* Buttons */
+    .btn-sm {
+        @apply px-3 py-1.5 text-sm rounded transition-colors duration-200 flex items-center gap-2;
+    }
+    .btn-primary {
+        @apply bg-primary-600 hover:bg-primary-700 text-white;
+    }
+    .btn-success {
+        @apply bg-green-600 hover:bg-green-700 text-white;
+    }
+    .btn-info {
+        @apply bg-blue-600 hover:bg-blue-700 text-white;
+    }
+    .btn-danger {
+        @apply bg-red-600 hover:bg-red-700 text-white;
+    }
+
+    /* API Docs specific */
+    .gradient-bg {
+        @apply bg-gradient-to-br from-primary-500 to-primary-700;
+    }
+    .dark .gradient-bg {
+        @apply bg-gradient-to-br from-primary-600 to-primary-800;
+    }
+
+    /* Shadows */
+    .shadow-soft {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    .dark .shadow-soft {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3),
+                    0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar-hover-effect {
+        transition: all 0.1s ease;
+    }
+    .sidebar-hover-effect:hover {
+        @apply transform scale-105;
+    }
+}
+
+/* Utilities */
+@layer utilities {
+    .icon-fallback {
+        font-weight: bold;
+        font-size: 0.875rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 1rem;
+        min-height: 1rem;
+    }
+
+    [data-lucide] {
+        transition: opacity 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    /* If Lucide fails to load, show fallback text */
+    [data-lucide]:not(:has(svg)) {
+        opacity: 0.8;
+        font-style: italic;
+        font-weight: bold;
+    }
+
+    /* Print styles */
+    @media print {
+        .no-print {
+            display: none !important;
+        }
+        .glass-effect {
+            background: transparent !important;
+            backdrop-filter: none !important;
+            border: 1px solid #e5e7eb !important;
+        }
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .animate-float {
+        animation: none;
+    }
+    * {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
