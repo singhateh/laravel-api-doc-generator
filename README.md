@@ -89,3 +89,303 @@ return [
 ];
 
 ```
+
+
+
+## 🚀 Usage
+
+### Generate API Documentation
+
+```bash
+
+# Generate documentation from controller annotations
+php artisan api:generate
+
+# Force regenerate all annotations (even existing ones)
+php artisan api:generate --force
+
+# Dry run (see what would change without modifying files)
+php artisan api:generate --dry-run
+
+```
+
+### Regenerate Controller Annotations
+
+```bash
+
+# Regenerate annotations for all controllers
+php artisan api:annotate:regenerate
+
+# Regenerate for specific directory
+php artisan api:annotate:regenerate --path=Http/Controllers/API
+
+# Cross-check without modifying files
+php artisan api:annotate:regenerate --cross-check
+
+# Force regenerate all annotations
+php artisan api:annotate:regenerate --force
+
+
+```
+
+### Backup Management
+
+```bash
+
+# List available backups
+php artisan api:backups:list
+
+# Restore from latest backup
+php artisan api:backups:restore
+
+# Restore specific backup
+php artisan api:backups:restore filename=api-docs_2023-12-15_143022.json
+
+
+```
+
+
+## 📖 Annotation Reference
+
+### Basic Annotation Structure
+
+```bash
+
+/**
+ * @api {GET} /api/users Get Users
+ * @apiName GetUsers
+ * @apiGroup User
+ * @apiDescription Retrieve a list of all users
+ * 
+ * @apiParam {String} [page] Optional page number
+ * @apiParam {String} [per_page] Optional items per page
+ * 
+ * @apiSuccess {Object[]} data Array of users
+ * @apiSuccess {Number} data.id User ID
+ * @apiSuccess {String} data.name User name
+ * @apiSuccess {String} data.email User email
+ * 
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *         "data": [
+ *             {
+ *                 "id": 1,
+ *                 "name": "John Doe",
+ *                 "email": "john@example.com"
+ *             }
+ *         ]
+ *     }
+ * 
+ * @apiErrorExample {json} Error-Response:
+ *     HTTP/1.1 500 Internal Server Error
+ *     {
+ *         "error": "Server error occurred"
+ *     }
+ */
+public function index()
+{
+    // Controller logic
+}
+
+
+```
+
+### Supported Annotations
+
+| Annotation        | Description              | Example                                          |
+| ----------------- | ------------------------ | ------------------------------------------------ |
+| `@api`            | HTTP method and endpoint | `@api {GET} /api/users Get Users`                |
+| `@apiName`        | Endpoint name            | `@apiName GetUsers`                              |
+| `@apiGroup`       | Group/category           | `@apiGroup User`                                 |
+| `@apiDescription` | Endpoint description     | `@apiDescription Get all users`                  |
+| `@apiParam`       | Request parameter        | `@apiParam {String} name User name`              |
+| `@apiHeader`      | Request header           | `@apiHeader {String} Authorization Bearer token` |
+| `@apiSuccess`     | Success response field   | `@apiSuccess {Number} id User ID`                |
+| `@apiError`       | Error response           | `@apiError {401} Unauthorized`                   |
+| `@apiAuth`        | Authentication type      | `@apiAuth bearer`                                |
+| `@apiMiddleware`  | Middleware used          | `@apiMiddleware auth:api`                        |
+| `@apiPermission`  | Required permissions     | `@apiPermission users.read,users.write`          |
+
+
+
+## 🛡️ Security
+
+The package includes built-in security features:
+
+### Production Environment
+
+API documentation is disabled by default in production
+
+Only allowed users (by email) can access
+
+IP whitelist support
+
+### Development Environment
+
+Localhost access allowed by default
+
+Configurable IP restrictions
+
+User-based access control
+
+
+### Configuration Example
+
+```bash
+
+// config/api-doc-generator.php
+'security' => [
+    'ip_whitelist' => ['192.168.1.100', '10.0.0.0/24'],
+    'restricted_paths' => ['internal', 'admin'],
+],
+
+'allowed_users' => [
+    'admin@example.com',
+    'developer@example.com',
+],
+```
+
+## 🔧 Advanced Usage
+
+### Custom Controller Properties
+
+```bash
+
+class UserController extends Controller
+{
+    public static $apiParams = [
+        'custom_param' => [
+            'type' => 'string',
+            'required' => true,
+            'description' => 'Custom parameter description',
+        ],
+    ];
+}
+
+```
+
+### Manual Annotation Overrides
+
+```bash
+
+/**
+ * @api {POST} /api/users Create User
+ * @apiName CreateUser
+ * @apiGroup User
+ * @apiDescription Create a new user account
+ * 
+ * @apiParam {String} name User's full name
+ * @apiParam {String} email User's email address
+ * @apiParam {String} password User's password
+ * 
+ * @apiAuth bearer
+ * @apiMiddleware auth:api
+ */
+public function store(CreateUserRequest $request)
+{
+    // Your controller logic
+}
+
+
+```
+
+### Integration with Form Requests
+
+```bash
+
+class CreateUserRequest extends FormRequest
+{
+    public function rules()
+    {
+        return [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8|confirmed',
+        ];
+    }
+}
+
+
+```
+
+## 🌐 Web Interface
+
+Access the web interface at:
+
+```bash
+http://your-app.com/api-docs
+
+```
+
+### Customizing the Web Interface
+
+Publish the views and modify them as needed:
+
+```bash
+php artisan vendor:publish --provider="Alagiesinghateh\LaravelApiDocGenerator\LaravelApiDocGeneratorServiceProvider" --tag="views"
+
+
+```
+
+## 🔄 Backup System
+
+The package includes a smart backup system:
+
+Automatic Backups: Created only when documentation content changes
+
+Configurable Retention: Keep last N backups (default: 10)
+
+Easy Restoration: Restore from any backup via artisan commands
+
+Content-based: Backups are created based on content changes, not file modifications
+
+
+## 🤝 Contributing
+
+We welcome contributions! Please see CONTRIBUTING.md for details.
+
+Fork the project
+
+Create your feature branch (git checkout -b feature/amazing-feature)
+
+Commit your changes (git commit -m 'Add some amazing feature')
+
+Push to the branch (git push origin feature/amazing-feature)
+
+Open a Pull Request
+
+
+
+## 🤝 Contributing
+
+This package is open-source software licensed under the MIT license.
+
+
+
+## 🐛 Bug Reports
+
+If you discover any bugs, please create an issue on GitHub.
+
+
+## 📞 Support
+
+For support and questions:
+
+Create an issue on GitHub
+
+Email: support@alagiesinghateh.com
+
+Documentation: GitHub Wiki
+
+
+
+## 🙏 Acknowledgments
+
+Inspired by various API documentation generators
+
+Built with the Laravel framework
+
+Thanks to all contributors
+
+Note: This package is actively maintained. For the latest updates and features, always check the GitHub repository.
