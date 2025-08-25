@@ -27,7 +27,7 @@ A powerful Laravel package that automatically generates comprehensive API docume
 Install via Composer:
 
 ```bash
-composer require alagiesinghateh/laravel-api-doc-generator
+composer require alagiesinghateh/laravel-apidocs
 ```
 
 Publish the configuration file:
@@ -102,42 +102,42 @@ return [
 
 ```bash
 # Generate documentation from controller annotations
-php artisan api:generate
+php artisan singhateh:generate
 
 # Force regenerate all annotations (even existing ones)
-php artisan api:generate --force
+php artisan singhateh:generate --force
 
 # Dry run (see what would change without modifying files)
-php artisan api:generate --dry-run
+php artisan singhateh:generate --dry-run
 ```
 
 ### Regenerate Controller Annotations
 
 ```bash
 # Regenerate annotations for all controllers
-php artisan api:annotate:regenerate
+php artisan singhateh:annotate:regenerate
 
 # Regenerate for specific directory
-php artisan api:annotate:regenerate --path=Http/Controllers/API
+php artisan singhateh:annotate:regenerate --path=Http/Controllers/API
 
 # Cross-check without modifying files
-php artisan api:annotate:regenerate --cross-check
+php artisan singhateh:annotate:regenerate --cross-check
 
 # Force regenerate all annotations
-php artisan api:annotate:regenerate --force
+php artisan singhateh:annotate:regenerate --force
 ```
 
 ### Backup Management
 
 ```bash
 # List available backups
-php artisan api:backups:list
+php artisan singhateh:backups:list
 
 # Restore from latest backup
-php artisan api:backups:restore
+php artisan singhateh:backups:restore
 
 # Restore specific backup
-php artisan api:backups:restore filename=api-docs_2023-12-15_143022.json
+php artisan singhateh:backups:restore filename=api-docs_2023-12-15_143022.json
 ```
 
 ---
