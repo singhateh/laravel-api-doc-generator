@@ -25,6 +25,14 @@ Install via Composer:
 ```bash
 composer require alagiesinghateh/laravel-api-doc-generator
 
+
+## Publish the configuration file:
+
 php artisan vendor:publish --provider="Alagiesinghateh\LaravelApiDocGenerator\LaravelApiDocGeneratorServiceProvider" --tag="config"
 
 
+## Publish the views (optional):
+
+php artisan vendor:publish --provider="Alagiesinghateh\LaravelApiDocGenerator\LaravelApiDocGeneratorServiceProvider" --tag="views"
+
+```
