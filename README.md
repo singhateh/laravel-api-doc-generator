@@ -1,10 +1,10 @@
 # Laravel API Doc Generator
 
 [![Issues](https://img.shields.io/github/issues/singhateh/laravel-docmaker)](https://github.com/singhateh/laravel-docmaker/issues)
-[![Latest Version](https://img.shields.io/packagist/v/jambasangsang/flash.svg?style=flat-square)](https://packagist.org/packages/jambasangsang/flash)
+[![Latest Version](https://img.shields.io/packagist/v/alagiesinghateh/laravel-docmaker.svg?style=flat-square)](https://packagist.org/packages/alagiesinghateh/laravel-docmaker)
 [![License](https://img.shields.io/github/license/singhateh/laravel-docmaker)](https://github.com/singhateh/laravel-docmaker/license)
 [![Stars](https://img.shields.io/github/stars/singhateh/laravel-docmaker)](https://github.com/singhateh/laravel-docmaker/stargazers)
-[![Total Downloads](https://img.shields.io/packagist/dt/jambasangsang/flash.svg?style=flat-square)](https://packagist.org/packages/jambasangsang/flash)
+[![Total Downloads](https://img.shields.io/packagist/dt/alagiesinghateh/laravel-docmaker.svg?style=flat-square)](https://packagist.org/packages/alagiesinghateh/laravel-docmaker)
 
 A powerful Laravel package that automatically generates comprehensive API documentation from your controller annotations. Supports API Blueprint format with intelligent annotation parsing, authentication detection, and smart backup system.
 
