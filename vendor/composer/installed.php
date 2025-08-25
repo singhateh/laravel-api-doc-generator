@@ -1,6 +1,6 @@
 <?php return array(
     'root' => array(
-        'name' => 'alagiesinghateh/laravel-apidocs',
+        'name' => 'alagiesinghateh/laravel-docmaker',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
         'reference' => 'afaf3677bcc4037e1e6f0ad9c11248ab6014b4eb',
@@ -10,7 +10,7 @@
         'dev' => true,
     ),
     'versions' => array(
-        'alagiesinghateh/laravel-apidocs' => array(
+        'alagiesinghateh/laravel-docmaker' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
             'reference' => 'afaf3677bcc4037e1e6f0ad9c11248ab6014b4eb',

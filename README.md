@@ -27,7 +27,7 @@ A powerful Laravel package that automatically generates comprehensive API docume
 Install via Composer:
 
 ```bash
-composer require alagiesinghateh/laravel-apidocs
+composer require alagiesinghateh/laravel-docmaker
 ```
 
 Publish the configuration file:
