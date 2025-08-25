@@ -298,6 +298,9 @@ Access the web interface at:
 `http://your-app.com/api-docs`
 
 ![API Documentation Interface](https://via.placeholder.com/800x400?text=API+Documentation+Interface)
+<p align="center">
+    <img src="LARAVEL-API-DOC.gif" alt="Laravel Flash Notification" width="600px">
+</p>
 
 ### Customizing the Web Interface
 
