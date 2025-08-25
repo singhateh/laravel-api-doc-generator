@@ -39,3 +39,53 @@ php artisan vendor:publish --provider="Alagiesinghateh\LaravelApiDocGenerator\La
 php artisan vendor:publish --provider="Alagiesinghateh\LaravelApiDocGenerator\LaravelApiDocGeneratorServiceProvider" --tag="views"
 
 ```
+
+
+## ⚙️ Configuration
+
+```bash
+return [
+    'output_dir' => storage_path('docs/api'),
+    
+    'controller_paths' => [
+        app_path('Http/Controllers/API'),
+        app_path('Http/Controllers/Api'),
+    ],
+    
+    'web_interface' => [
+        'enabled' => true,
+        'route_prefix' => 'api-docs',
+        'middleware' => ['web', 'api-docs'],
+    ],
+    
+    'security' => [
+        'ip_whitelist' => ['127.0.0.1', '::1'],
+        'restricted_paths' => [],
+    ],
+    
+    'allowed_users' => [],
+    
+    'middleware' => [
+        'detect' => true,
+        'auth_middleware' => ['auth', 'auth:api', 'auth:sanctum'],
+        'security_schemes' => [
+            'auth' => 'bearer',
+            'auth:api' => 'bearer',
+            'auth:sanctum' => 'bearer',
+        ],
+        'exclude' => ['web', 'throttle', 'bindings'],
+    ],
+    
+    'backup' => [
+        'max_backups' => 10,
+    ],
+    
+    'defaults' => [
+        'method' => 'GET',
+        'path' => '/api/endpoint',
+        'name' => 'Untitled Endpoint',
+        'group' => 'General',
+    ],
+];
+
+```
