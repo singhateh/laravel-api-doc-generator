@@ -302,26 +302,6 @@ Access the web interface at:
     <img src="LARAVEL-API-DOC.gif" alt="Laravel API Doc Generator" style="width:100%; max-width:100%; height:auto;">
 </p>
 
-<h1 align="center">Laravel API Doc Generator</h1>
-
-<p align="center">
-    <a href="https://packagist.org/packages/alagiesinghateh/laravel-api-doc-generator">
-        <img src="https://img.shields.io/packagist/v/alagiesinghateh/laravel-api-doc-generator.svg?style=flat-square" alt="Latest Version">
-    </a>
-    <a href="https://packagist.org/packages/alagiesinghateh/laravel-api-doc-generator">
-        <img src="https://img.shields.io/packagist/dt/alagiesinghateh/laravel-api-doc-generator.svg?style=flat-square" alt="Total Downloads">
-    </a>
-    <a href="https://github.com/alagiesinghateh/laravel-api-doc-generator/blob/main/LICENSE">
-        <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License">
-    </a>
-</p>
-
-<p align="center">
-    A simple and powerful <b>Laravel package</b> to generate interactive API documentation for your Laravel applications.  
-    Supports annotations, auto-discovery, and a clean UI for developers.
-</p>
-
----
 
 
 ### Customizing the Web Interface
