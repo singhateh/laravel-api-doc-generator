@@ -1,22 +1,26 @@
 # Laravel API Doc Generator
 
-[![Latest Version](https://img.shields.io/packagist/v/alagiesinghateh/laravel-api-doc-generator.svg?style=flat-square)](https://packagist.org/packages/alagiesinghateh/laravel-api-doc-generator)
-[![Total Downloads](https://img.shields.io/packagist/dt/alagiesinghateh/laravel-api-doc-generator.svg?style=flat-square)](https://packagist.org/packages/alagiesinghateh/laravel-api-doc-generator)
-[![License](https://img.shields.io/packagist/l/alagiesinghateh/laravel-api-doc-generator.svg?style=flat-square)](https://packagist.org/packages/alagiesinghateh/laravel-api-doc-generator)
+[![Latest Version](https://img.shields.io/packagist/v/alagiesinghateh/laravel-api-doc-generator.svg?style=flat-square)](https://packagist.org/packages/alagiesinghateh/laravel-api-doc-generator)  
+[![Total Downloads](https://img.shields.io/packagist/dt/alagiesinghateh/laravel-api-doc-generator.svg?style=flat-square)](https://packagist.org/packages/alagiesinghateh/laravel-api-doc-generator)  
+[![License](https://img.shields.io/packagist/l/alagiesinghateh/laravel-api-doc-generator.svg?style=flat-square)](https://packagist.org/packages/alagiesinghateh/laravel-api-doc-generator)  
 [![PHP Version](https://img.shields.io/packagist/php-v/alagiesinghateh/laravel-api-doc-generator.svg?style=flat-square)](https://packagist.org/packages/alagiesinghateh/laravel-api-doc-generator)
 
 A powerful Laravel package that automatically generates comprehensive API documentation from your controller annotations. Supports API Blueprint format with intelligent annotation parsing, authentication detection, and smart backup system.
 
+---
+
 ## ✨ Features
 
-- **Automatic Annotation Generation**: Auto-generate `@api` annotations for your controller methods
-- **Smart Parameter Detection**: Automatically detects route parameters, form request validation, and model bindings
-- **Authentication Detection**: Intelligent detection of authentication requirements from middleware and parameters
-- **Backup System**: Smart backup system that only creates backups when content changes
-- **Web Interface**: Beautiful web interface to browse your API documentation
-- **Security**: Built-in security with IP whitelisting and user authentication
-- **Multiple Formats**: Supports API Blueprint format with JSON output
-- **Cross-Platform**: Works with any Laravel application
+- **Automatic Annotation Generation**: Auto-generate `@api` annotations for your controller methods  
+- **Smart Parameter Detection**: Automatically detects route parameters, form request validation, and model bindings  
+- **Authentication Detection**: Intelligent detection of authentication requirements from middleware and parameters  
+- **Backup System**: Smart backup system that only creates backups when content changes  
+- **Web Interface**: Beautiful web interface to browse your API documentation  
+- **Security**: Built-in security with IP whitelisting and user authentication  
+- **Multiple Formats**: Supports API Blueprint format with JSON output  
+- **Cross-Platform**: Works with any Laravel application  
+
+---
 
 ## 📦 Installation
 
@@ -24,26 +28,27 @@ Install via Composer:
 
 ```bash
 composer require alagiesinghateh/laravel-api-doc-generator
-
 ```
 
-## Publish the configuration file:
+Publish the configuration file:
 
 ```bash
 php artisan vendor:publish --provider="Alagiesinghateh\LaravelApiDocGenerator\LaravelApiDocGeneratorServiceProvider" --tag="config"
 ```
 
-## Publish the views (optional):
+Publish the views (optional):
 
 ```bash
 php artisan vendor:publish --provider="Alagiesinghateh\LaravelApiDocGenerator\LaravelApiDocGeneratorServiceProvider" --tag="views"
-
 ```
 
+---
 
 ## ⚙️ Configuration
 
-```bash
+After publishing the config file, you can modify `config/api-doc-generator.php`:
+
+```php
 return [
     'output_dir' => storage_path('docs/api'),
     
@@ -87,17 +92,15 @@ return [
         'group' => 'General',
     ],
 ];
-
 ```
 
-
+---
 
 ## 🚀 Usage
 
 ### Generate API Documentation
 
 ```bash
-
 # Generate documentation from controller annotations
 php artisan api:generate
 
@@ -106,13 +109,11 @@ php artisan api:generate --force
 
 # Dry run (see what would change without modifying files)
 php artisan api:generate --dry-run
-
 ```
 
 ### Regenerate Controller Annotations
 
 ```bash
-
 # Regenerate annotations for all controllers
 php artisan api:annotate:regenerate
 
@@ -124,14 +125,11 @@ php artisan api:annotate:regenerate --cross-check
 
 # Force regenerate all annotations
 php artisan api:annotate:regenerate --force
-
-
 ```
 
 ### Backup Management
 
 ```bash
-
 # List available backups
 php artisan api:backups:list
 
@@ -140,17 +138,15 @@ php artisan api:backups:restore
 
 # Restore specific backup
 php artisan api:backups:restore filename=api-docs_2023-12-15_143022.json
-
-
 ```
 
+---
 
 ## 📖 Annotation Reference
 
 ### Basic Annotation Structure
 
-```bash
-
+```php
 /**
  * @api {GET} /api/users Get Users
  * @apiName GetUsers
@@ -187,53 +183,43 @@ public function index()
 {
     // Controller logic
 }
-
-
 ```
 
 ### Supported Annotations
 
-| Annotation        | Description              | Example                                          |
-| ----------------- | ------------------------ | ------------------------------------------------ |
-| `@api`            | HTTP method and endpoint | `@api {GET} /api/users Get Users`                |
-| `@apiName`        | Endpoint name            | `@apiName GetUsers`                              |
-| `@apiGroup`       | Group/category           | `@apiGroup User`                                 |
-| `@apiDescription` | Endpoint description     | `@apiDescription Get all users`                  |
-| `@apiParam`       | Request parameter        | `@apiParam {String} name User name`              |
-| `@apiHeader`      | Request header           | `@apiHeader {String} Authorization Bearer token` |
-| `@apiSuccess`     | Success response field   | `@apiSuccess {Number} id User ID`                |
-| `@apiError`       | Error response           | `@apiError {401} Unauthorized`                   |
-| `@apiAuth`        | Authentication type      | `@apiAuth bearer`                                |
-| `@apiMiddleware`  | Middleware used          | `@apiMiddleware auth:api`                        |
-| `@apiPermission`  | Required permissions     | `@apiPermission users.read,users.write`          |
+| Annotation       | Description             | Example                                   |
+|------------------|-------------------------|-------------------------------------------|
+| `@api`           | HTTP method and endpoint | `@api {GET} /api/users Get Users`         |
+| `@apiName`       | Endpoint name           | `@apiName GetUsers`                       |
+| `@apiGroup`      | Group/category          | `@apiGroup User`                          |
+| `@apiDescription`| Endpoint description    | `@apiDescription Get all users`           |
+| `@apiParam`      | Request parameter       | `@apiParam {String} name User name`       |
+| `@apiHeader`     | Request header          | `@apiHeader {String} Authorization Bearer token` |
+| `@apiSuccess`    | Success response field  | `@apiSuccess {Number} id User ID`         |
+| `@apiError`      | Error response          | `@apiError {401} Unauthorized`            |
+| `@apiAuth`       | Authentication type     | `@apiAuth bearer`                         |
+| `@apiMiddleware` | Middleware used         | `@apiMiddleware auth:api`                 |
+| `@apiPermission` | Required permissions    | `@apiPermission users.read,users.write`   |
 
-
+---
 
 ## 🛡️ Security
 
 The package includes built-in security features:
 
 ### Production Environment
-
-API documentation is disabled by default in production
-
-Only allowed users (by email) can access
-
-IP whitelist support
+- API documentation is disabled by default in production  
+- Only allowed users (by email) can access  
+- IP whitelist support  
 
 ### Development Environment
-
-Localhost access allowed by default
-
-Configurable IP restrictions
-
-User-based access control
-
+- Localhost access allowed by default  
+- Configurable IP restrictions  
+- User-based access control  
 
 ### Configuration Example
 
-```bash
-
+```php
 // config/api-doc-generator.php
 'security' => [
     'ip_whitelist' => ['192.168.1.100', '10.0.0.0/24'],
@@ -246,12 +232,13 @@ User-based access control
 ],
 ```
 
+---
+
 ## 🔧 Advanced Usage
 
 ### Custom Controller Properties
 
-```bash
-
+```php
 class UserController extends Controller
 {
     public static $apiParams = [
@@ -262,13 +249,11 @@ class UserController extends Controller
         ],
     ];
 }
-
 ```
 
 ### Manual Annotation Overrides
 
-```bash
-
+```php
 /**
  * @api {POST} /api/users Create User
  * @apiName CreateUser
@@ -286,14 +271,11 @@ public function store(CreateUserRequest $request)
 {
     // Your controller logic
 }
-
-
 ```
 
 ### Integration with Form Requests
 
-```bash
-
+```php
 class CreateUserRequest extends FormRequest
 {
     public function rules()
@@ -305,18 +287,16 @@ class CreateUserRequest extends FormRequest
         ];
     }
 }
-
-
 ```
+
+---
 
 ## 🌐 Web Interface
 
-Access the web interface at:
+Access the web interface at:  
+`http://your-app.com/api-docs`
 
-```bash
-http://your-app.com/api-docs
-
-```
+![API Documentation Interface](https://via.placeholder.com/800x400?text=API+Documentation+Interface)
 
 ### Customizing the Web Interface
 
@@ -324,68 +304,71 @@ Publish the views and modify them as needed:
 
 ```bash
 php artisan vendor:publish --provider="Alagiesinghateh\LaravelApiDocGenerator\LaravelApiDocGeneratorServiceProvider" --tag="views"
-
-
 ```
+
+Views will be published to:  
+`resources/views/vendor/api-doc-generator/`
+
+---
 
 ## 🔄 Backup System
 
 The package includes a smart backup system:
 
-Automatic Backups: Created only when documentation content changes
+- **Automatic Backups**: Created only when documentation content changes  
+- **Configurable Retention**: Keep last N backups (default: 10)  
+- **Easy Restoration**: Restore from any backup via artisan commands  
+- **Content-based**: Backups are created based on content changes, not file modifications  
 
-Configurable Retention: Keep last N backups (default: 10)
+---
 
-Easy Restoration: Restore from any backup via artisan commands
+## 🧪 Testing
 
-Content-based: Backups are created based on content changes, not file modifications
+Run the package tests:
 
+```bash
+composer test
+```
 
-## 🤝 Contributing
-
-We welcome contributions! Please see CONTRIBUTING.md for details.
-
-Fork the project
-
-Create your feature branch (git checkout -b feature/amazing-feature)
-
-Commit your changes (git commit -m 'Add some amazing feature')
-
-Push to the branch (git push origin feature/amazing-feature)
-
-Open a Pull Request
-
-
+---
 
 ## 🤝 Contributing
+
+We welcome contributions! Please see `CONTRIBUTING.md` for details.
+
+1. Fork the project  
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)  
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)  
+4. Push to the branch (`git push origin feature/amazing-feature`)  
+5. Open a Pull Request  
+
+---
+
+## 📄 License
 
 This package is open-source software licensed under the MIT license.
 
-
+---
 
 ## 🐛 Bug Reports
 
 If you discover any bugs, please create an issue on GitHub.
 
+---
 
 ## 📞 Support
 
-For support and questions:
+For support and questions:  
+- Create an issue on GitHub  
+- Email: 3939919@gmail.com 
+- Documentation: [GitHub Wiki](https://github.com/alagiesinghateh/laravel-api-doc-generator/wiki)
 
-Create an issue on GitHub
-
-Email: support@alagiesinghateh.com
-
-Documentation: GitHub Wiki
-
-
+---
 
 ## 🙏 Acknowledgments
 
-Inspired by various API documentation generators
+- Inspired by various API documentation generators  
+- Built with the Laravel framework  
+- Thanks to all contributors  
 
-Built with the Laravel framework
-
-Thanks to all contributors
-
-Note: This package is actively maintained. For the latest updates and features, always check the GitHub repository.
+> **Note**: This package is actively maintained. For the latest updates and features, always check the GitHub repository.
